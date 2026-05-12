@@ -8,6 +8,7 @@ on:
 
 jobs:
   job_build:
+    if: ${{ github.event.pull_request == null || github.event.pull_request.head.repo.full_name == github.repository }}
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -36,6 +37,7 @@ jobs:
             ${{ github.workspace }}/*.tgz
 
   job_lint:
+    if: ${{ github.event.pull_request == null || github.event.pull_request.head.repo.full_name == github.repository }}
     name: Lint
     needs: job_build
     runs-on: ubuntu-latest
@@ -57,6 +59,7 @@ jobs:
         run: pnpm lint
 
   job_test:
+    if: ${{ github.event.pull_request == null || github.event.pull_request.head.repo.full_name == github.repository }}
     name: Node (${{ matrix.node }}) Unit Tests
     needs: job_build
     runs-on: ubuntu-latest
